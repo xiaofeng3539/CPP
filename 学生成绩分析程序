@@ -1,0 +1,43 @@
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+struct student{
+	string name;
+	double score;
+	void print();
+};
+
+void student::print(){
+	cout << name << endl << score << endl;
+}
+
+int main(){
+#if 0	
+	student stu;
+	stu.name = "liuxianxiao";
+	stu.score = 100.0;
+	stu.print();
+#endif	
+	std::vector<student>students;
+	//cout << students.size() << endl;
+	while(1){
+		student stu;
+		cout << "请输入姓名，分数：\n";
+		cin >> stu.name >> stu.score;
+		if(stu.score<0) break;
+		students.push_back(stu);
+	}
+	
+	for(int i = 0;i < (int)students.size();i++)
+		students[i].print();
+	
+	double min = 100,max = 0,average = 0;
+	for(int i = 0;i < (int)students.size();i++){
+		if(students[i].score < min) min = students[i].score;
+		if(students[i].score > max) max = students[i].score;
+		average += students[i].score; 
+	}
+	average /=(int)students.size();
+	cout << "平均分 最高分 最低分："<<average << " " << max << " " << min << endl;
+}
