@@ -7,6 +7,7 @@ typedef struct TreeNode{
 	struct TreeNode* right;
 }TreeNode;
 
+//创造节点
 TreeNode* createNode(int data){
 	TreeNode* newNode = (TreeNode*)malloc(sizeof(TreeNode));
 	newNode->data = data;
@@ -15,6 +16,7 @@ TreeNode* createNode(int data){
 	return newNode;
 }
 
+//节点插入
 TreeNode* insert(TreeNode* root,int data){
 	if(root == NULL) return createNode(data);
 	if(data < root->data)
@@ -24,6 +26,7 @@ TreeNode* insert(TreeNode* root,int data){
 	return root;
 }
 
+//中序遍历
 void inorderTraversal(TreeNode* root){
 	if(root != NULL){
 		inorderTraversal(root->left);
@@ -32,6 +35,7 @@ void inorderTraversal(TreeNode* root){
 	}
 }
 
+//释放节点
 void freeTree(TreeNode* root){
 	if(root == NULL) return;
 	freeTree(root->left);
