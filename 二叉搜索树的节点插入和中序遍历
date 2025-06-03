@@ -1,0 +1,56 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct TreeNode{
+	int data;
+	struct TreeNode* left;
+	struct TreeNode* right;
+}TreeNode;
+
+TreeNode* createNode(int data){
+	TreeNode* newNode = (TreeNode*)malloc(sizeof(TreeNode));
+	newNode->data = data;
+	newNode->left = NULL;
+	newNode->right = NULL;
+	return newNode;
+}
+
+TreeNode* insert(TreeNode* root,int data){
+	if(root == NULL) return createNode(data);
+	if(data < root->data)
+		root->left = insert(root->left,data);
+	else if(data > root->data)
+		root->right = insert(root->right,data);
+	return root;
+}
+
+void inorderTraversal(TreeNode* root){
+	if(root != NULL){
+		inorderTraversal(root->left);
+		printf("%d ",root->data);
+		inorderTraversal(root->right);
+	}
+}
+
+void freeTree(TreeNode* root){
+	if(root == NULL) return;
+	freeTree(root->left);
+	freeTree(root->right);
+	free(root);
+}
+
+int main(){
+	TreeNode* root = NULL;
+	int values[] = {50,30,20,40,70,60,80};
+	int n = sizeof(values)/sizeof(values[0]);
+	
+	for(int i = 0;i < n;i++)
+		root = insert(root,values[i]);
+	
+	printf("中序遍历结果：");
+	inorderTraversal(root);
+	printf("\n");
+	
+	freeTree(root);
+	
+}
