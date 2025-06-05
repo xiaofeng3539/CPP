@@ -1,0 +1,51 @@
+#include<iostream>
+using namespace std;
+#include<string>
+
+
+class Phone{
+public:
+	Phone(string pName){
+	cout << "手机的构造函数调用" << endl;
+		Pname = pName;
+	}
+	~Phone(){
+		cout << "phone的析构函数调用" << endl;
+	}
+	string Pname;
+	
+};
+class Person{
+public:
+	Person(string name,string pName): m_Name(name),m_Phone(pName)
+	{
+		cout << "人的构造函数调用" << endl;
+	}
+	~Person(){
+		cout << "person的析构函数调用" << endl;
+	}
+	
+	
+	string m_Name;
+	Phone m_Phone;
+};
+
+void test01(){
+	Person p("张三","小米");
+	cout << p.m_Name << "拿着：" << p.m_Phone.Pname << endl;
+}
+
+
+
+
+int main(){
+		test01();
+	
+	
+	
+	
+	
+	
+	
+	return 0;
+}
