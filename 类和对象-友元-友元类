@@ -1,0 +1,58 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// 提前声明
+class Building;
+
+
+class GoodGay {
+public:
+	GoodGay();
+	void visit();
+	
+private:
+	Building* building;
+};
+
+class Building {
+	// 将 GoodGay 声明为友元类
+	friend class GoodGay;
+	
+public:
+	Building();
+	string m_SittingRoom;
+	
+private:
+	string m_BedRoom;
+};
+
+
+// 类外写构造函数
+Building::Building() {
+	m_SittingRoom = "客厅";
+	m_BedRoom = "卧室";
+}
+
+GoodGay::GoodGay() {
+	building = new Building;
+}
+
+
+//成员函数
+void GoodGay::visit() {
+	cout << "好基友正在访问：" << building->m_SittingRoom << endl;
+	cout << "好基友偷偷访问：" << building->m_BedRoom << endl;  // 因为是友元类，能访问私有
+}
+
+
+void test01() {
+	GoodGay gg;
+	gg.visit();
+}
+
+
+int main() {
+	test01();
+	return 0;
+}
