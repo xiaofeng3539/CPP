@@ -1,0 +1,35 @@
+#include<iostream>
+using namespace std;
+
+//常函数
+class Person{
+public:
+	Person(int a, int b) : m_a(a), m_b(b) {}
+	//this指针的本质 是指针常量 指针的指向是不可以修改的
+	//const Person *const this;
+	// 在成员函数后面加const，修饰的是this指向，让指针指向的值也不可以修改
+	void showperson()const
+	{
+		m_b = 10;
+		cout << "值为 ：" << m_b << endl;
+	}
+	int m_a;
+	mutable int m_b;       //加mutable关键字，可以修改变量
+};
+
+
+void test01(){
+	Person p(1,2);
+	p.showperson();
+}
+void test02(){
+	const Person p1(1, 2);
+	p1.m_b = 100;
+	cout << "b = " << p1.m_b << endl;
+}
+int main(){
+	test01();
+	test02();
+	
+	return 0;
+}
