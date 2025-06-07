@@ -1,0 +1,60 @@
+#include<iostream>
+using namespace std;
+
+//赋值运算符的重载
+
+class Person{
+public:
+	
+	Person(int age){
+		m_age = new int(age);
+	}
+	
+	
+	~Person(){
+		if(m_age != NULL){
+			delete m_age;
+			m_age = NULL;
+		}
+	}
+	
+	
+	//重载赋值运算符
+	Person& operator=(const Person &p){
+		//编译器提供 浅拷贝
+		//m_age = p.m_age
+		
+		//应该先判断是否有属性在堆区，如果有先释放干净，然后再深拷贝
+//		if(m_age != NULL){
+//			delete m_age;
+//			m_age = NULL;
+//		}
+		if(this == &p) return *this;   //自赋值保护
+		delete m_age; 				   //释放旧内存
+		
+		m_age = new int(*(p.m_age));   //深拷贝内容
+		return *this;
+	}
+	
+	
+	int *m_age;	
+};
+
+
+void test01(){
+	Person p1(18);
+	Person p2(20);
+	p2 = p1;
+	Person p3(25);
+	Person p4(30);
+	p4 = p1 = p3;
+	cout << "p1的年龄为" << *p1.m_age << endl;
+	cout << "p2的年龄为" << *p2.m_age << endl;
+	cout << "p4的年龄为" << *p4.m_age << endl;
+}
+
+
+int main(){
+	test01();
+	return 0;  
+}
