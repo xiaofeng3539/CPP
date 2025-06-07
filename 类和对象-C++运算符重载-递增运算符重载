@@ -1,0 +1,55 @@
+#include<iostream>
+using namespace std;
+
+class Myinteger{
+	 friend ostream& operator<<(ostream& cout,Myinteger myint);
+public:
+	Myinteger(){
+		m_num = 0;
+	}
+	
+	//重载 前置++ 运算符
+	Myinteger operator++(){
+		//先进行++运算
+		m_num++;
+		//再将自身做返回
+		return *this;
+	}
+	
+	//重载 后置++ 运算符
+	Myinteger operator++(int){
+		//先 返回结果
+		Myinteger temp = *this;
+		//后 递增
+		m_num++;
+		//最后将记录的结果做返回
+		return temp;
+	}
+private:
+	int m_num;	
+};
+
+//重载左移运算符
+ostream& operator<<(ostream& cout,Myinteger myint){
+	cout << myint.m_num;
+	return cout;
+}
+
+void test01(){
+	Myinteger myint;
+	
+	cout << ++(++myint) << endl;
+}
+
+void test02(){
+	Myinteger myint;
+	
+	cout << myint++ << endl;
+	cout << myint << endl;
+}
+
+int main(){
+	test01();
+	test02();
+	return 0;
+}
