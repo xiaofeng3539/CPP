@@ -1,0 +1,28 @@
+#include<iostream>
+using namespace std;
+
+class Base{
+public:
+	int m_a;
+protected:
+	int m_b;
+private:
+	int m_c;
+};
+
+class Son1 : public Base{
+public:
+	int m_d;
+};
+
+void test01(){
+	//16
+	//父类中的所有非静态成员属性都会被子类继承下去
+	//父类中的 私有成员数学 被编译器隐藏了，但确实是被继承了
+	cout << "size of Son1 =" << sizeof(Son1) << endl;
+}
+
+int main(){
+	test01();	
+	return 0;
+}
