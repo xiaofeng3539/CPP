@@ -1,0 +1,36 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+//字符串的查找和替换
+
+//  1、查找
+void test01(){
+	string s1 = "abcdefgde";
+	int pos = s1.find("de");
+	if(pos == -1){
+		cout << "未找到字符串" << endl;
+	}else{
+	    cout << "pos = " << pos << endl;		
+	}
+	
+	//  rfind
+	// find 和 rfine的区别，find从左往右查找，rfind从右往左
+	pos = s1.rfind("de");
+	cout << "pos = " << pos << endl;	
+}
+
+//  2、替换
+void test02(){
+	string s2 = "abcdefg";
+	//从 1号 位置起 3个字符替换为 1111
+	s2.replace(1,3,"1111");
+	cout << "s2 = " << s2 << endl;
+}
+
+
+int main(){
+	test01();	
+	test02();	
+	return 0;
+}
