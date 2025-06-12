@@ -1,0 +1,34 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+// void容器 数据存取
+void test01(){
+	vector<int>v1;
+	for(int i = 0;i < 10;i++){
+		v1.push_back(i);
+	}
+	
+	//利用 [] 方式访问数组中元素
+	for(int i = 0;i < v1.size();i++){
+		cout << v1[i] << " ";
+	}
+	cout << endl;
+	
+	//利用at方式访问
+	for(int i = 0;i < v1.size();i++){
+		cout << v1.at(i) << " ";
+	}
+	cout << endl;
+	
+	// 返回第一个元素
+	cout << "第一个元素为：" << v1.front() << endl;
+	
+	//返回 最后一个元素
+	cout << "最后一个元素：" << v1.back() << endl;
+}
+
+int main(){
+	test01();
+	return 0;
+}
