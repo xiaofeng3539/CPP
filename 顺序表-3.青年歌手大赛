@@ -1,0 +1,126 @@
+#include<iostream>
+using namespace std;
+
+#define eleType double
+
+struct SequentialList {
+	eleType* elements;
+	int size;
+	int capacity;
+
+};
+
+// 初始化
+void initializeList(SequentialList* list, int capacity) {
+	list->elements = new eleType[capacity];
+	list->size = 0;
+	list->capacity = capacity;
+}
+
+void destroyList(SequentialList* list) {
+	delete[] list->elements;
+}
+
+int size(SequentialList* list) {
+	return list->size;
+}
+
+bool isEmpty(SequentialList* list) {
+	return list->size == 0;
+}
+
+void insert(SequentialList* list, int index, eleType element) {
+	if (index < 0 || index > list->capacity) {
+		throw std::invalid_argument("Invalid index");
+	}
+	if (list->size == list->capacity) {
+		int newcapacity = list->capacity * 2;
+		eleType* newElements = new eleType[newcapacity];
+		for (int i = 0; i < list->size; ++i) {
+			newElements[i] = list->elements[i];
+		}
+		delete[] list->elements;
+		list->elements = newElements;
+		list->capacity = newcapacity;
+	}
+	for (int i = list->size; i > index; --i) {
+		list->elements[i] = list->elements[i - 1];
+	}
+	list->elements[index] = element;
+	list->size++;
+}
+
+void deleteElement(SequentialList* list, int index) {
+	if (index < 0 || index >= list->capacity) {
+		throw std::invalid_argument("Invalid index");
+	}
+	for (int i = index; i < list->size - 1; ++i) {
+		list->elements[i] = list->elements[i + 1];
+	}
+	list->size--;
+}
+
+int findelement(SequentialList* list, eleType element) {
+	for (int i = 0; i < list->size; ++i) {
+		if (list->elements[i] == element) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+eleType getElement(SequentialList* list, int index) {
+	if (index < 0 || index >= list->size) {
+		throw std::invalid_argument("Invalid index");
+	}
+	return list->elements[index];
+}
+
+void updateElement(SequentialList* list, int index, eleType value) {
+	list->elements[index] = value;
+}
+
+int main() {
+	int n;
+	while (cin >> n) {
+		SequentialList s;
+		initializeList(&s, 1);
+		for (int i = 0; i < n; i++) {
+			eleType x;
+			cin >> x;
+			insert(&s, i, x);
+		}
+		eleType max = -111111111, min = 1111111111l;
+		eleType sum = 0;
+		for (int i = 0; i < size(&s); i++) {
+			eleType val = getElement(&s, i);
+			if (val > max) max = val;
+			if (val < min) min = val;
+			sum += val;
+		}
+		sum -= max;
+		sum -= min;
+		eleType eSum = sum / (n - 2);
+		printf("%.2lf\n", eSum);
+	}
+	return 0;
+}
+
+//Problem Description
+//青年歌手大奖赛中，评委会给参赛选手打分。选手得分规则为去掉一个最高分和一个最低分，然后计算平均得分，请编程输出某选手的得分。
+//Input
+//输入数据有多组，每组占一行，每行的第一个数是 n(2≤n≤100)，表示评委的人数，然后是 n 个评委的打分。
+//Output
+//对于每组输入数据，输出选手的得分，结果保留 2 位小数，每组输出占一行。
+//Sample Input
+//3 99 98 97
+//4 100 99 98 97
+//Sample Output
+//98.00
+//98.50
+
+
+
+
+
+
