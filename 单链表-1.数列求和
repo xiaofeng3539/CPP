@@ -1,0 +1,139 @@
+#include<iostream>
+#include<stdexcept>
+using namespace std;
+
+#define eleType int
+
+//链表节点
+struct ListNode {
+	eleType data;
+	ListNode* next;
+
+	ListNode(eleType x) :data(x), next(NULL) {}
+};
+//单链表
+class LinkedList {
+private:
+	ListNode* head;
+	int size;
+public:
+	LinkedList() :head(NULL), size(0) {}
+	~LinkedList();
+
+	void insert(int i, eleType value);
+	void remove(int i);
+	ListNode* find(eleType value);
+	ListNode* get(int i);
+	void update(int i, eleType value);
+	void print();
+	eleType sum();
+
+};
+
+//析构
+LinkedList::~LinkedList() {
+	ListNode* curr = head;
+	while (curr != NULL) {
+		ListNode* temp = curr;
+		curr = curr->next;
+		delete temp;
+	}
+}
+//插入
+void LinkedList::insert(int i, eleType value) {
+	if (i < 0 || i > size) {
+		throw out_of_range("Invalied Position");
+	}
+	ListNode* newnode = new ListNode(value);
+	if (i == 0) {
+		newnode->next = head;
+		head = newnode;
+	}
+	else {
+		ListNode* curr = head;
+		for (int j = 0; j < i - 1; j++) {
+			curr = curr->next;
+		}
+		newnode->next = curr->next;
+		curr->next = newnode;
+	}
+	size++;
+}
+//删除
+void LinkedList::remove(int i) {
+	if (i < 0 || i >= size) {
+		throw out_of_range("Invalied Position");
+	}
+	if (i == 0) {
+		ListNode* temp = head;
+		head = head->next;
+		delete temp;
+	}
+	else {
+		ListNode* curr = head;
+		for (int j = 0; j < i - 1; j++) {
+			curr = curr->next;
+		}
+		ListNode* temp = curr->next;
+		curr->next = temp->next;
+		delete temp;
+	}
+	size--;
+}
+//找到指定元素
+ListNode* LinkedList::find(eleType value) {
+	ListNode* curr = head;
+	while (curr != NULL && curr->data != value) {
+		curr = curr->next;
+	}
+	return curr;
+}
+//得到i下标的ListNode
+ListNode* LinkedList::get(int i) {
+	if (i < 0 || i >= size) {
+		throw out_of_range("Invalied Position");
+	}
+	ListNode* curr = head;
+	for (int j = 0; j < i; j++) {
+		curr = curr->next;
+	}
+	return curr;
+}
+//更新元素
+void LinkedList::update(int i, eleType value) {
+	get(i)->data = value;
+}
+//打印元素
+void LinkedList::print() {
+	ListNode* curr = head;
+	while (curr != NULL) {
+		cout << curr->data << " ";
+		curr = curr->next;
+	}
+	cout << endl;
+}
+eleType LinkedList::sum() {
+	ListNode* curr = head;
+	eleType ret = 0;
+	while (curr != NULL) {
+		ret += curr->data;
+		curr = curr->next;
+	}
+	return ret;
+}
+
+
+int main() {
+	int n;
+	while (cin >> n) {
+		LinkedList L;
+
+		for (int i = 0; i < n; i++) {
+			int x;
+			cin >> x;
+			L.insert(i, x);
+		}
+		cout << L.sum() << endl;
+	}
+	return 0;
+}
