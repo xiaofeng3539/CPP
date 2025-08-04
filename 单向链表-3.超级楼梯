@@ -1,0 +1,167 @@
+#include<iostream>
+#include<stdexcept>
+using namespace std;
+
+#define eleType int
+
+//链表节点
+struct ListNode {
+	eleType data;
+	ListNode* next;
+
+	ListNode(eleType x) :data(x), next(NULL) {}
+};
+//单链表
+class LinkedList {
+private:
+	ListNode* head;
+	int size;
+public:
+	LinkedList() :head(NULL), size(0) {}  // 链表构造函数
+	~LinkedList();						 
+
+	void insert(int i, eleType value);    // 在链表的第 i 个位置，插入一个值为 value
+	void remove(int i);					  // 删除链表第 i 个位置的结点
+	ListNode* find(eleType value);        // 查找链表中值为 value 的结点
+	ListNode* get(int i);				  // 获取链表中第 i 个位置的结点
+	void update(int i, eleType value);    // 修改链表中第 i 个位置的结点的值为 value
+	void print();						  // 打印链表内容
+	eleType sum();						  // 求链表中所有元素的和
+	void append(eleType value);			  // 插入元素到链表的尾部
+	void ascInsert(eleType value);		  // 按升序插入
+
+};
+
+//析构
+LinkedList::~LinkedList() {
+	ListNode* curr = head;
+	while (curr != NULL) {
+		ListNode* temp = curr;
+		curr = curr->next;
+		delete temp;
+	}
+}
+//插入
+void LinkedList::insert(int i, eleType value) {
+	if (i < 0 || i > size) {
+		throw out_of_range("Invalied Position");
+	}
+	ListNode* newnode = new ListNode(value);
+	if (i == 0) {
+		newnode->next = head;
+		head = newnode;
+	}
+	else {
+		ListNode* curr = head;
+		for (int j = 0; j < i - 1; j++) {
+			curr = curr->next;
+		}
+		newnode->next = curr->next;
+		curr->next = newnode;
+	}
+	size++;
+}
+//删除
+void LinkedList::remove(int i) {
+	if (i < 0 || i >= size) {
+		throw out_of_range("Invalied Position");
+	}
+	if (i == 0) {
+		ListNode* temp = head;
+		head = head->next;
+		delete temp;
+	}
+	else {
+		ListNode* curr = head;
+		for (int j = 0; j < i - 1; j++) {
+			curr = curr->next;
+		}
+		ListNode* temp = curr->next;
+		curr->next = temp->next;
+		delete temp;
+	}
+	size--;
+}
+//找到指定元素
+ListNode* LinkedList::find(eleType value) {
+	ListNode* curr = head;
+	while (curr != NULL && curr->data != value) {
+		curr = curr->next;
+	}
+	return curr;
+}
+//得到i下标的ListNode
+ListNode* LinkedList::get(int i) {
+	if (i < 0 || i >= size) {
+		throw out_of_range("Invalied Position");
+	}
+	ListNode* curr = head;
+	for (int j = 0; j < i; j++) {
+		curr = curr->next;
+	}
+	return curr;
+}
+//更新元素
+void LinkedList::update(int i, eleType value) {
+	get(i)->data = value;
+}
+//打印元素
+void LinkedList::print() {
+	ListNode* curr = head;
+	while (curr != NULL) {
+		cout << curr->data << " ";
+		curr = curr->next;
+	}
+	cout << endl;
+}
+//求链表中所有元素之和
+eleType LinkedList::sum() {
+	ListNode* curr = head;
+	eleType ret = 0;
+	while (curr != NULL) {
+		ret += curr->data;
+		curr = curr->next;
+	}
+	return ret;
+}
+//插入元素到链表的尾部
+void LinkedList::append(eleType x) {
+	insert(size, x);
+}
+// 按升序插入
+void LinkedList::ascInsert(eleType value) {
+	if (size == 0) {
+		insert(0, value);
+		return;
+	}
+	ListNode* curr = head;
+	for (int i = 0; i < size; i++) {
+		if (value <= curr->data) {
+			insert(i, value);
+			return;
+		}
+		curr = curr->next;
+	}
+	insert(size, value);
+}
+
+
+int main() {
+	LinkedList f;
+	f.insert(0, 1);
+	f.insert(1, 1);
+	f.insert(2, 1);
+	for (int i = 3; i <= 40; i++) {
+		ListNode* a = f.get(i - 1);
+		ListNode* b = f.get(i - 2);
+		f.insert(i, a->data + b->data);
+	}
+	int n;
+	cin >> n;
+	while (n--) {
+		int x;
+		cin >> x;
+		cout << f.get(x)->data << endl;
+	}
+	return 0;
+}
