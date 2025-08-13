@@ -1,0 +1,90 @@
+#include<iostream>
+#include<stdexcept>
+using namespace std;
+
+template<typename T>
+class Stack {
+private:
+	struct Node {
+		T data;
+		Node* next;
+		Node(T d):data(d),next(NULL){}	
+	};
+	Node* head;
+	int size;
+
+public:
+	Stack():head(NULL),size(0){}
+	~Stack();
+	void push(T element);
+	T pop();
+	T top() const;
+	int getSize() const;
+
+};
+
+template<typename T>
+Stack<T>::~Stack() {
+	while (head) {
+		Node* temp = head;
+		head = head->next;
+		delete temp;
+	}
+}
+
+template<typename T>
+void Stack<T>::push(T element) {
+	Node* newnode = new Node(element);
+	newnode->next = head;
+	head = newnode;
+	++size;
+}
+
+template<typename T>
+T Stack<T>::pop() {
+	if (head == NULL) {
+		throw std::underflow_error("Stack is empty");
+	}
+	T result = head->data;
+	Node* temp = head;
+	head = head->next;
+	delete temp;
+	--size;
+	return result;
+}
+
+template<typename T>
+T Stack<T>::top() const {
+	if (head == NULL) {
+		throw std::underflow_error("Stack is empty");
+	}
+	return head->data;
+}
+
+template<typename T>
+int Stack<T>::getSize() const {
+	return size;
+}
+
+
+
+
+int main() {
+	Stack<int > s;
+	s.push(4);
+	s.push(7);
+	s.push(13);
+	cout << s.top() << endl;
+	s.push(17);
+	cout << s.top() << endl;
+
+	s.pop();
+	s.pop();
+	cout << s.top() << endl;
+
+	cout << s.getSize() << endl;
+
+
+
+	return 0;
+}
