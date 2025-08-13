@@ -1,0 +1,28 @@
+#include<iostream>
+#include<stack>
+using namespace std;
+
+int main() {
+	stack<int> intStk;
+	stack<double> doubleStk;
+	intStk.push(1);
+	intStk.push(2);
+	intStk.push(3);
+	intStk.push(4);
+	while (!intStk.empty()) {
+		cout << intStk.top() << " ";
+		intStk.pop();
+	}
+	cout << endl;
+
+	doubleStk.push(1.1);
+	doubleStk.push(2.2);
+	doubleStk.push(3.3);
+	doubleStk.push(4.4);
+	while (!doubleStk.empty()) {
+		cout << doubleStk.top() << " ";
+		doubleStk.pop();
+	}
+
+	return 0;
+}
