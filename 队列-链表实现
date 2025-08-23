@@ -32,7 +32,7 @@ Queue<T>::~Queue() {
 	while (front) {
 		Node* temp = front;
 		front = front->next;
-		delete front;
+		delete temp;
 	}
 }
 
