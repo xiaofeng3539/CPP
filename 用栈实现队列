@@ -1,0 +1,110 @@
+#include <iostream>
+#include <stdexcept>
+using namespace std;
+
+template<typename T>
+class Stack {
+private:
+    T* data;
+    int size;
+    int capacity;
+public:
+    Stack() : data(nullptr), size(0), capacity(10) { data = new T[capacity]; }
+    ~Stack();
+    void push(T element);
+    T pop();
+    T top() const;
+    int getSize() const;
+    void resize();
+    bool empty() const;
+};
+
+template<typename T>
+void Stack<T>::resize() {
+    int newcapacity = capacity * 2;
+    T* newData = new T[newcapacity];
+    for (int i = 0; i < size; i++) {
+        newData[i] = data[i];
+    }
+    delete[] data;
+    data = newData;
+    capacity = newcapacity; // 同步更新容量
+}
+
+template<typename T>
+Stack<T>::~Stack() {
+    delete[] data;
+}
+
+template<typename T>
+void Stack<T>::push(T element) {
+    if (size == capacity) {
+        resize();
+    }
+    data[size++] = element;
+}
+
+template<typename T>
+T Stack<T>::pop() {
+    if (size == 0) {
+        throw std::underflow_error("Stack is empty");
+    }
+    return data[--size];
+}
+
+template<typename T>
+T Stack<T>::top() const {
+    if (size == 0) {
+        throw std::underflow_error("Stack is empty");
+    }
+    return data[size - 1];
+}
+
+template<typename T>
+int Stack<T>::getSize() const {
+    return size;
+}
+
+template<typename T>
+bool Stack<T>::empty() const {
+    return size==0;
+}
+
+class Myqueue {
+private:
+    Stack<int> s1, s2;
+public:
+    Myqueue(){}
+
+    void push(int x) {
+        s1.push(x);
+    }
+
+    int pop() {
+        if (s2.empty()) {
+            while (!s1.empty()) {
+                s2.push(s1.pop());
+            }
+        }
+        return s2.pop();
+    }
+
+    int peek() {
+        if (s2.empty()) {
+            while (!s1.empty()) {
+                s2.push(s1.pop());
+            }
+        }
+        return s2.top();
+    }
+
+    bool empty() {
+        return s1.empty() && s2.empty();
+    }
+};
+
+
+int main() {
+  
+    return 0;
+}
