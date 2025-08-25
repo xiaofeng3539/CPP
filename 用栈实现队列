@@ -105,6 +105,61 @@ public:
 
 
 int main() {
-  
+  Myqueue q;
+
+    // 测试1：初始队列是否为空
+    cout << "测试1：初始队列是否为空" << endl;
+    cout << "预期结果：1（空），实际结果：" << q.empty() << endl << endl;
+
+    // 测试2：入队操作
+    cout << "测试2：入队操作" << endl;
+    q.push(10);
+    q.push(20);
+    q.push(30);
+    cout << "入队元素：10, 20, 30" << endl;
+    cout << "当前队列是否为空：" << q.empty() << "（预期：0）" << endl << endl;
+
+    // 测试3：查看队首元素
+    cout << "测试3：查看队首元素" << endl;
+    cout << "预期队首：10，实际队首：" << q.peek() << endl << endl;
+
+    // 测试4：出队操作
+    cout << "测试4：出队操作" << endl;
+    cout << "出队元素：" << q.pop() << "（预期：10）" << endl;
+    cout << "出队后队首：" << q.peek() << "（预期：20）" << endl << endl;
+
+    // 测试5：连续出队
+    cout << "测试5：连续出队" << endl;
+    cout << "出队元素：" << q.pop() << "（预期：20）" << endl;
+    cout << "出队元素：" << q.pop() << "（预期：30）" << endl;
+    cout << "所有元素出队后是否为空：" << q.empty() << "（预期：1）" << endl << endl;
+
+    // 测试6：边界测试（空队列操作）
+    cout << "测试6：边界测试（空队列操作）" << endl;
+    try {
+        cout << "尝试从空队列出队：";
+        q.pop();
+    } catch (const std::underflow_error& e) {
+        cout << "捕获异常：" << e.what() << "（预期行为）" << endl;
+    }
+
+    try {
+        cout << "尝试查看空队列的队首：";
+        q.peek();
+    } catch (const std::underflow_error& e) {
+        cout << "捕获异常：" << e.what() << "（预期行为）" << endl;
+    }
+
+    // 测试7：混合操作
+    cout << endl << "测试7：混合操作" << endl;
+    q.push(40);
+    q.push(50);
+    cout << "入队元素：40, 50" << endl;
+    cout << "出队元素：" << q.pop() << "（预期：40）" << endl;
+    q.push(60);
+    cout << "入队元素：60" << endl;
+    cout << "出队元素：" << q.pop() << "（预期：50）" << endl;
+    cout << "出队元素：" << q.pop() << "（预期：60）" << endl;
+    cout << "最终队列是否为空：" << q.empty() << "（预期：1）" << endl;
     return 0;
 }
